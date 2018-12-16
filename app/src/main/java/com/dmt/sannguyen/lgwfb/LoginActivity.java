@@ -1,17 +1,11 @@
 package com.dmt.sannguyen.lgwfb;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -24,30 +18,24 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     ProfilePictureView profilePictureView;
     LoginButton loginButton;
-    TextView txtname , txtfirstname, txtemail;
     CallbackManager callbackManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        setContentView(R.layout.activity_main);
-        anhxa();
-        txtemail.setVisibility(View.INVISIBLE);
-        txtname.setVisibility(View.INVISIBLE);
-        txtfirstname.setVisibility(View.INVISIBLE);
+        setContentView(R.layout.login);
+        anhXa();
         loginButton.setReadPermissions(Arrays.asList("public_profile","email"));
         setLogin_button();
         
@@ -64,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
                     GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                         @Override
                         public void onCompleted(JSONObject object, GraphResponse response) {
-                            Log.d("JSON", object.toString());
-                            try {
-                                txtemail.setText(object.getString("email"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+//                            Log.d("JSON", object.toString());
+//                            try {
+//                                txtemail.setText(object.getString("email"));
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
                         }
                     });
 
@@ -79,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
                     graphRequest.executeAsync();
 
                     loginButton.setVisibility(View.INVISIBLE);
-                    txtemail.setVisibility(View.VISIBLE);
-                    txtname.setVisibility(View.VISIBLE);
-                    txtfirstname.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -102,12 +87,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void anhxa() {
+    private void anhXa() {
         profilePictureView = findViewById(R.id.imageprofilepickture);
         loginButton = findViewById(R.id.login_button);
-        txtname = findViewById(R.id.txtName);
-        txtfirstname = findViewById(R.id.txtFirstName);
-        txtemail = findViewById(R.id.txtEmail);
 
     }
 
